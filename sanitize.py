@@ -44,10 +44,28 @@ def build_vocab(tuples):
     unique_words = sorted(set(words.split()))
     return unique_words
 
-def main():
-    tuples = sanitize('data/trainingSet.txt')
+def featurize(tuples, vocab):
+    featurized = []
+    for tuple in tuples:
+        sentence = sorted(set(tuple[0].split()))
+        features = []
+        for word in vocab:
+            if word in sentence:
+                features.append(1)
+            else:
+                features.append(0)
+        features.append(tuple[1])
+        featurized.append(features)
+    return featurized
+
+def pre_proccess(filename):
+    tuples = sanitize(filename)
     vocab = build_vocab(tuples)
-    
+    return featurize(tuples, vocab)
+
+def main():
+    features = pre_proccess('data/trainingSet.txt')
+
 
 
 
