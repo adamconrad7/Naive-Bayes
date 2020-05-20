@@ -58,15 +58,26 @@ def featurize(tuples, vocab):
         featurized.append(features)
     return featurized
 
+def write_data(features, vocab):
+    f = open("preprocessed_train.txt", "w")
+    for word in vocab:
+        f.write(word)
+        f.write(' ')
+    f.write('classlabel')
+    for line in features:
+        f.write('\n')
+        for feature in line:
+            f.write(str(feature))
+            f.write(' ')
+
 def pre_proccess(filename):
     tuples = sanitize(filename)
     vocab = build_vocab(tuples)
-    return featurize(tuples, vocab)
+    features = featurize(tuples, vocab)
+    write_data(features, vocab)
+    return features
 
 def main():
     features = pre_proccess('data/trainingSet.txt')
-
-
-
 
 main()
